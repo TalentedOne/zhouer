@@ -1,6 +1,7 @@
 package com.mobile.liguanjian.liguanjian;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -57,9 +58,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.title_update_btn) {
+        if (view.getId() == R.id.title_city_manager) {
+            Intent intent = new Intent(this, SelectCity.class);
+            startActivityForResult(intent, 1);
+        } else if (view.getId() == R.id.title_update_btn) {
             SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-            String cityCode = sharedPreferences.getString("maincity_code", "101160101");
+            String cityCode = sharedPreferences.getString("maincity_code", "101010100");
             Log.d(" myWeather", cityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
@@ -96,6 +100,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
         temperatureTv.setText("N/A");
         climateTv.setText("N/A");
         windTv.setText("N/A");
+
+        findViewById(R.id.title_city_manager).setOnClickListener(this);
     }
 
     /**
@@ -258,4 +264,21 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         return todayWeather;
     }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+
+            String newCityCode = data.getStringExtra("cityCode");
+            Log.d("myWeather", "选择的城市代码为" + newCityCode);
+
+            if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
+                Log.d("myWeather", "网络OK");
+                queryWeatherCode(newCityCode);
+            } else {
+                Log.d("myWeather", "网络挂了");
+                Toast.makeText(MainActivity.this, "网络挂了", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 }
