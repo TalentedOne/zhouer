@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Master.Style.Lollipop.CheckBox.ColorAccentRed" parent="">
+        <item name="android:colorAccent">#FF4081</item>
+    </style>
+</resources>

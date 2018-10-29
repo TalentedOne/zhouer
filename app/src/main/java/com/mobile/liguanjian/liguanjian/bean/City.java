@@ -1,7 +1,9 @@
 package com.mobile.liguanjian.liguanjian.bean;
 
 public class City {
+//    省
     private String province;
+//    市
     private String city;
     private String number;
     private String firstPY;

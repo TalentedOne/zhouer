@@ -2,7 +2,6 @@ package com.mobile.liguanjian.liguanjian;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mobile.liguanjian.liguanjian.app.MyApplication;
 import com.mobile.liguanjian.liguanjian.bean.TodayWeather;
 import com.mobile.liguanjian.liguanjian.util.NetUtil;
 
@@ -53,7 +53,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Log.d("myWeather", "网络挂了");
             Toast.makeText(MainActivity.this, "网络挂了!", Toast.LENGTH_LONG).show();
         }
+
         initView();
+        loadWeatherInfo();
     }
 
     @Override
@@ -61,18 +63,20 @@ public class MainActivity extends Activity implements View.OnClickListener {
         if (view.getId() == R.id.title_city_manager) {
             Intent intent = new Intent(this, SelectCity.class);
             startActivityForResult(intent, 1);
-        } else if (view.getId() == R.id.title_update_btn) {
-            SharedPreferences sharedPreferences = getSharedPreferences("config", MODE_PRIVATE);
-            String cityCode = sharedPreferences.getString("maincity_code", "101010100");
-            Log.d(" myWeather", cityCode);
+        } else if (view.getId() == R.id.title_update_btn)
+            loadWeatherInfo();
+    }
 
-            if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
-                Log.d("myWeather", "网络OK");
-                queryWeatherCode(cityCode);
-            } else {
-                Log.d("myWeather", "网络挂了");
-                Toast.makeText(MainActivity.this, "网络挂了!", Toast.LENGTH_LONG).show();
-            }
+    private void loadWeatherInfo() {
+        String cityCode = MyApplication.getSharedMasterReference().getString(MyApplication.CITY, "101010100");
+
+        Log.d(" myWeather", cityCode);
+        if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
+            Log.d("myWeather", "网络OK");
+            queryWeatherCode(cityCode);
+        } else {
+            Log.d("myWeather", "网络挂了");
+            Toast.makeText(MainActivity.this, "网络挂了!", Toast.LENGTH_LONG).show();
         }
     }
 

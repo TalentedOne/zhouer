@@ -1,6 +1,9 @@
 package com.mobile.liguanjian.liguanjian.app;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
 
@@ -15,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyApplication extends Application {
-    private static final String TAG = "MyAPP";
+    public static final String TAG = "MyAPP";
+    public static final String CITY = "CITY";
+
     public static MyApplication myApplication;
     private List<City> mCityList;
 
@@ -32,8 +37,22 @@ public class MyApplication extends Application {
         initCityList();
     }
 
+    public static SharedPreferences getSharedMasterReference() {
+        return getInstance().getSharedPreferences(TAG, Activity.MODE_PRIVATE);
+    }
+
+    public static void setDefaultPreference(String cityCode) {
+        SharedPreferences.Editor editor = MyApplication.getSharedMasterReference().edit();
+        editor.putString( CITY, cityCode);
+        editor.apply();
+    }
+
     public static MyApplication getInstance() {
         return myApplication;
+    }
+
+    public static Context getMContext() {
+        return getInstance().getApplicationContext();
     }
 
     private CityDB openCityDB() {
