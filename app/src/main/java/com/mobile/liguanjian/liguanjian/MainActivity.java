@@ -50,7 +50,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Log.d("myWeather", "网络OK");
             Toast.makeText(MainActivity.this, "网络OK!", Toast.LENGTH_LONG).show();
         } else {
-            Log.d("myWeather", "网络挂了");
+            Log.d("myWeather", "网络挂了!");
             Toast.makeText(MainActivity.this, "网络挂了!", Toast.LENGTH_LONG).show();
         }
 
@@ -276,7 +276,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
             Log.d("myWeather", "选择的城市代码为" + newCityCode);
 
             if (NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
-                Log.d("myWeather", "网络OK");
+                Log.d("myWeather", "网络OK!");
                 queryWeatherCode(newCityCode);
             } else {
                 Log.d("myWeather", "网络挂了");
