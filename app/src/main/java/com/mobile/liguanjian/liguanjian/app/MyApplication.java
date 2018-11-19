@@ -20,7 +20,7 @@ import java.util.List;
 public class MyApplication extends Application {
     public static final String TAG = "MyAPP";
     public static final String CITY = "CITY";
-
+    public static List<Activity> activities = new ArrayList<>();
     public static MyApplication myApplication;
     private List<City> mCityList;
 
@@ -43,7 +43,7 @@ public class MyApplication extends Application {
 
     public static void setDefaultPreference(String cityCode) {
         SharedPreferences.Editor editor = MyApplication.getSharedMasterReference().edit();
-        editor.putString( CITY, cityCode);
+        editor.putString(CITY, cityCode);
         editor.apply();
     }
 
@@ -118,5 +118,10 @@ public class MyApplication extends Application {
 
     public List<City> getCityList() {
         return mCityList;
+    }
+
+    public static void finishAll() {
+        for (int i = activities.size() - 1; i >= 0; i--)
+            activities.get(i).finish();
     }
 }
